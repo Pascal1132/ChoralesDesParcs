@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Content, type HTMLRichTextMapSerializer } from '@prismicio/client'
+import { type HTMLRichTextMapSerializer } from '@prismicio/client'
 
 const settings = useSettings();
 const navigation = useNavigation();
@@ -7,10 +7,7 @@ const year = new Date().getFullYear();
 const footerText = settings?.value?.data.footerText;
 const footerLinks = navigation?.value?.data.footerLinks;
 
-const socialLinks = [
-    { name: 'Instagram', icon: 'mdi:instagram', url: settings?.value?.data.instagramLink.url },
-    { name: 'Facebook', icon: 'mdi:facebook', url: settings?.value?.data.facebookLink?.url }
-].filter(social => social.url);
+const socialLinks = useSocialMediaLinks();
 
 const prismic = usePrismic()
 

@@ -153,7 +153,16 @@ interface SettingsDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  facebookLink: prismic.LinkField;
+  facebookLink: prismic.LinkField /**
+   * favicon field in *Settings*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.favicon
+   * - **Tab**: SEO
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */;
+  favicon: prismic.ImageField<never>;
 }
 
 /**

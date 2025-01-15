@@ -6,8 +6,17 @@ const { data: page } = useAsyncData('index', () =>
   prismic.client.getByUID('page', 'home')
 )
 
+const settings = useSettings();
+
 useHead({
-  title: prismic.asText(page.value?.data.title)
+  title: prismic.asText(page.value?.data.title),
+  link: [
+    {
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: settings.value?.data.favicon.url
+    }
+  ]
 })
 </script>
 

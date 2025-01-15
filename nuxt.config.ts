@@ -4,12 +4,15 @@ import { repositoryName, apiEndpoint } from './slicemachine.config.json';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  colorMode: {
+    preference: 'light'
+  },
 
   app: {
     head: {
       title: 'Prismic + Nuxt Minimal Starter',
       htmlAttrs: {
-        lang: 'en',
+        lang: 'fr',
       },
       meta: [
         { charset: 'utf-8' },
@@ -17,11 +20,10 @@ export default defineNuxtConfig({
         { hid: 'description', name: 'description', content: '' },
         { name: 'format-detection', content: 'telephone=no' },
       ],
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     }
   },
 
-  modules: ['@nuxtjs/prismic', '@nuxtjs/tailwindcss', '@nuxt/icon'],
+  modules: ['@nuxtjs/prismic', '@nuxt/icon', '@nuxt/ui'],
 
   prismic: {
     endpoint: apiEndpoint || repositoryName,

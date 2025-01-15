@@ -45,6 +45,15 @@
         }
       }
     },
-    "SEO": {}
+    "SEO": {
+      "favicon": {
+        "type": "Image",
+        "config": {
+          "label": "favicon",
+          "constraint": {},
+          "thumbnails": []
+        }
+      }
+    }
   }
 }
