@@ -1,0 +1,50 @@
+{
+  "format": "custom",
+  "id": "settings",
+  "label": "Settings",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "siteTitle": {
+        "type": "Text",
+        "config": {
+          "label": "Site title",
+          "placeholder": "Mon site web"
+        }
+      },
+      "footerText": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Footer text",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "heading1,paragraph"
+        }
+      },
+      "instagramLink": {
+        "type": "Link",
+        "config": {
+          "label": "InstagramLink",
+          "placeholder": "",
+          "select": null,
+          "allowTargetBlank": true,
+          "allowText": false,
+          "repeat": false
+        }
+      },
+      "facebookLink": {
+        "type": "Link",
+        "config": {
+          "label": "facebookLink",
+          "placeholder": "",
+          "select": null,
+          "allowTargetBlank": true,
+          "allowText": true,
+          "repeat": false
+        }
+      }
+    },
+    "SEO": {}
+  }
+}

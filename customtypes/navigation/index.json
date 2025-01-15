@@ -1,0 +1,44 @@
+{
+  "format": "custom",
+  "id": "navigation",
+  "label": "Navigation",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "footerLinks": {
+        "type": "Link",
+        "config": {
+          "label": "Footer links",
+          "placeholder": "",
+          "select": null,
+          "allowTargetBlank": true,
+          "allowText": true,
+          "repeat": true
+        }
+      },
+      "mainNavLinks": {
+        "type": "Link",
+        "config": {
+          "label": "Main Nav link",
+          "placeholder": "",
+          "select": null,
+          "allowTargetBlank": true,
+          "allowText": true,
+          "repeat": true
+        }
+      },
+      "mainNavCtaLink": {
+        "type": "Link",
+        "config": {
+          "label": "Main Nav Cta Link",
+          "placeholder": "",
+          "select": null,
+          "allowTargetBlank": true,
+          "allowText": true,
+          "repeat": true
+        }
+      }
+    }
+  }
+}

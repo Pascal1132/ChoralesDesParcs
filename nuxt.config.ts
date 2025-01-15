@@ -1,3 +1,4 @@
+import tailwindAspectRatio from '@tailwindcss/aspect-ratio';
 import { repositoryName, apiEndpoint } from './slicemachine.config.json';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -20,7 +21,7 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@nuxtjs/prismic'],
+  modules: ['@nuxtjs/prismic', '@nuxtjs/tailwindcss', '@nuxt/icon'],
 
   prismic: {
     endpoint: apiEndpoint || repositoryName,
@@ -39,4 +40,24 @@ export default defineNuxtConfig({
       ]
     }
   },
+  css: [
+    '~/styles/global.css',
+    '@fontsource/inter/400.css',
+    '@fontsource/inter/500.css',
+    '@fontsource/inter/600.css'
+  ],
+  tailwindcss: {
+    config: {
+      content: [
+        './app/**/*.{js,ts,vue}',
+        './slices/**/*.{js,ts,vue}'
+      ],
+      theme: {
+        fontFamily: {
+          sans: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+        },
+      },
+      plugins: [tailwindAspectRatio]
+    }
+  }
 })
