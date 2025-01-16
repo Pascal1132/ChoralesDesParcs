@@ -43,6 +43,17 @@
           "allowText": true,
           "repeat": false
         }
+      },
+      "navLogo": {
+        "type": "Image",
+        "config": {
+          "label": "navLogo",
+          "constraint": {
+            "width": null,
+            "height": null
+          },
+          "thumbnails": []
+        }
       }
     },
     "SEO": {

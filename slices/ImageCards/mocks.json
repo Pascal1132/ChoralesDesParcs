@@ -61,21 +61,15 @@
 								}
 							],
 							[
-								"buttonLink",
+								"link",
 								{
 									"__TYPE__": "LinkContent",
+									"key": "657506f9-049e-4bd1-8470-e5080c87265e",
 									"value": {
 										"__TYPE__": "ExternalLink",
-										"url": "https://slicemachine.dev"
+										"url": "http://google.com",
+										"text": "warn"
 									}
-								}
-							],
-							[
-								"buttonText",
-								{
-									"__TYPE__": "FieldContent",
-									"value": "front",
-									"type": "Text"
 								}
 							]
 						]

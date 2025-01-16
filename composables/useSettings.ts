@@ -10,7 +10,7 @@ const facebookLink = settings?.value?.data.facebookLink as any;
 const socialLinks = [
     { name: 'Instagram', icon: 'mdi:instagram', url: instagramLink?.url },
     { name: 'Facebook', icon: 'mdi:facebook', url: facebookLink?.url }
-].filter(social => social.url);
+].filter(social => social?.url);
 
 return socialLinks
 }

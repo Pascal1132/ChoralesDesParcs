@@ -1,145 +1,144 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 
 const settings = useSettings();
 const navigation = useNavigation();
 const socialLinks = useSocialMediaLinks();
 const mainNavLinks = navigation?.value?.data.mainNavLinks;
-const mainNavCta = navigation?.value?.data.mainNavCtaLink;
+const mainNavCta = navigation?.value?.data.mainNavCtaLink?.filter((cta) => cta.text)
+const navLogo = settings?.value?.data.navLogo;
 
-const scrolled = ref(false);
-const headerRef = ref(null);
 const isOpen = ref(false);
-
-const onScroll = () => {
-  scrolled.value = window.scrollY > 10;
-};
-
-onMounted(() => {
-  window.addEventListener('scroll', onScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', onScroll);
-});
 </script>
 
 <template>
-  <div class="py-2" />
-  <header
-    ref="headerRef"
-    class="sticky bg-white z-50 border-2 py-4 border-gray-500 px-4 transition-all duration-300 ease-in-out"
-    :class="{'m-5 py-2 top-1 shadow-md ': scrolled, 'mx-3 ': !scrolled}"
-  >
-    <div class="flex items-center justify-between gap-x-6">
-      <!-- Logo and Site Title -->
-      <NuxtLink
-        to="/"
-        class="text-lg font-semibold tracking-tight text-gray-900"
-      >
-        {{ settings?.data.siteTitle }}
-      </NuxtLink>
+  <header class="bg-navbar shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo and Site Title -->
+        <NuxtLink
+          to="/"
+          class="text-2xl font-bold text-white hover:opacity-90 transition-opacity flex items-center gap-2"
+        >
+          <PrismicImage
+            v-if="navLogo"
+            class="w-8 h-8 object-cover"
+            :field="navLogo"
+          />
 
-      <!-- Mobile Menu Button -->
-      <button
-        class="block sm:hidden p-2 rounded-md bg-gray-800 hover:bg-gray-900 flex items-center justify-center"
-        @click="isOpen = true"
-      >
-        <Icon
-          name="mdi:menu"
-          class="w-6 h-6 text-white"
-        />
-      </button>
+          {{ settings?.data.siteTitle }}
+        </NuxtLink>
 
-      <!-- Navigation Links (Desktop) -->
-      <nav class="ml-auto hidden sm:block">
-        <ul class="flex items-center space-x-4">
-          <li
-            v-for="link in mainNavLinks"
-            :key="link.key"
-          >
-            <PrismicLink
-              :field="link"
-              class="text-sm font-medium text-gray-700 hover:text-gray-900"
-            />
-          </li>
-        </ul>
-      </nav>
+        <!-- Navigation Links (Desktop) -->
+        <nav class="hidden sm:block">
+          <ul class="flex items-center space-x-6">
+            <li
+              v-for="link in mainNavLinks"
+              :key="link.key"
+            >
+              <PrismicLink
+                :field="link"
+                class="text-sm font-medium text-white hover:text-yellow-300 transition-colors"
+              />
+            </li>
+            <li
+              v-for="link in mainNavCta"
+              :key="link.key"
+            >
+              <BaseButton
+                :field="link"
+                variant="primary"
+                size="sm"
+              >
+                {{ link.text }}
+              </BaseButton>
+            </li>
+          </ul>
+        </nav>
 
-      <!-- Call to Action Button (Desktop) -->
-      <PrismicLink
-        v-for="link in mainNavCta"
-        :key="link.key"
-        :field="link"
-        class="hidden sm:block px-4 py-2 text-sm font-medium text-white bg-gray-800 hover:bg-gray-900"
-      />
-    </div>
-  </header>
-  <div class="py-2" />
-  
-
-  <!-- Sidebar (Mobile) -->
-  <USlideover v-model="isOpen">
-    <div class="p-4 flex-1">
-      <UButton
-        color="gray"
-        variant="ghost"
-        size="sm"
-        icon="i-heroicons-x-mark-20-solid"
-        class="flex sm:hidden absolute end-5 top-2 z-10"
-        square
-        padded
-        @click="isOpen = false"
-      />
-      <!-- Site Title -->
-      <NuxtLink
-        to="/"
-        class="text-lg font-semibold tracking-tight text-gray-900 mb-4 block"
-      >
-        {{ settings?.data.siteTitle }}
-      </NuxtLink>
-      <nav>
-        <ul class="flex flex-col space-y-4">
-          <li
-            v-for="link in mainNavLinks"
-            :key="link.key"
-            class="bg-gray-50 hover:bg-gray-100 p-2"
-          >
-            <PrismicLink
-              :field="link"
-              class="text-base font-medium text-gray-700 hover:text-gray-900"
-            />
-          </li>
-        </ul>
-      </nav>
-      <div class="mt-4">
-        <PrismicLink
-          v-for="link in mainNavCta"
-          :key="link.key"
-          :field="link"
-          class="block px-4 py-2 text-base font-medium text-white bg-gray-800 hover:bg-gray-900"
-        />
-      </div>
-    </div>
-    <!-- Social Media -->
-    <div class="bg-gray-50 p-4 mt-4">
-      <div class="flex space-x-4">
-        <nuxt-link
-          v-for="social in socialLinks"
-          :key="social.name"
-          :to="social?.url || '#'"
-          target="_blank"
-          class="hover:text-yellow-300 transition duration-300 ease-in-out"
+        <!-- Mobile Menu Button -->
+        <button
+          class="sm:hidden text-white hover:text-yellow-300"
+          @click="isOpen = true"
         >
           <Icon
-            :name="social.icon"
-            size="24"
+            name="mdi:menu"
+            class="w-6 h-6"
           />
-        </nuxt-link>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar (Mobile) -->
+  <USlideover
+    v-model="isOpen"
+    class="sm:hidden"
+  >
+    <div class="flex flex-col h-full bg-navbar">
+      <div class="p-4 flex-1">
+        <div class="flex items-center justify-between mb-6">
+          <NuxtLink
+            to="/"
+            class="text-2xl font-bold text-white hover:opacity-90 transition-opacity"
+            @click="isOpen = false"
+          >
+            {{ settings?.data.siteTitle }}
+          </NuxtLink>
+          <button
+            class="text-white hover:text-yellow-300"
+            @click="isOpen = false"
+          >
+            <Icon
+              name="mdi:close"
+              class="w-6 h-6"
+            />
+          </button>
+        </div>
+        <nav>
+          <ul class="space-y-4">
+            <li
+              v-for="link in mainNavLinks"
+              :key="link.key"
+            >
+              <PrismicLink
+                :field="link"
+                class="block py-2 text-base text-white hover:text-yellow-300 transition-colors"
+                @click="isOpen = false"
+              />
+            </li>
+          </ul>
+        </nav>
+        <div class="mt-6">
+          <BaseButton
+            v-for="link in mainNavCta"
+            :key="link.key"
+            :field="link"
+            variant="primary"
+            class="w-full"
+            @click="isOpen = false"
+          >
+            {{ link.text }}
+          </BaseButton>
+        </div>
+      </div>
+      <!-- Social Media -->
+      <div class="border-t border-white p-4">
+        <div class="flex justify-center space-x-6">
+          <nuxt-link
+            v-for="social in socialLinks"
+            :key="social.name"
+            :to="social?.url || '#'"
+            target="_blank"
+            class="text-white hover:text-yellow-300 transition-transform transform hover:scale-110"
+          >
+            <Icon
+              :name="social.icon"
+              size="28"
+            />
+          </nuxt-link>
+        </div>
       </div>
     </div>
   </USlideover>
 </template>
-
-<style scoped>
-</style>

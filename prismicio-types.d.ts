@@ -62,7 +62,6 @@ type PageDocumentDataSlicesSlice =
   | TextWithImageSlice
   | TextBlockSlice
   | QuoteSlice
-  | RichTextSlice
   | TextSlice
   | ImageCardsSlice
   | ImageSlice
@@ -153,7 +152,18 @@ interface SettingsDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  facebookLink: prismic.LinkField /**
+  facebookLink: prismic.LinkField;
+
+  /**
+   * navLogo field in *Settings*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.navLogo
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  navLogo: prismic.ImageField<never> /**
    * favicon field in *Settings*
    *
    * - **Field Type**: Image
@@ -185,6 +195,21 @@ export type AllDocumentTypes =
   | NavigationDocument
   | PageDocument
   | SettingsDocument;
+
+/**
+ * Item in *Hero → Default → Primary → backgrounds*
+ */
+export interface HeroSliceDefaultPrimaryBackgroundsItem {
+  /**
+   * Image field in *Hero → Default → Primary → backgrounds*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: hero.default.primary.backgrounds[].image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+}
 
 /**
  * Primary content in *Hero → Default → Primary*
@@ -221,14 +246,16 @@ export interface HeroSliceDefaultPrimary {
   buttonText: prismic.KeyTextField;
 
   /**
-   * Background Image field in *Hero → Default → Primary*
+   * backgrounds field in *Hero → Default → Primary*
    *
-   * - **Field Type**: Image
+   * - **Field Type**: Group
    * - **Placeholder**: *None*
-   * - **API ID Path**: hero.default.primary.backgroundImage
-   * - **Documentation**: https://prismic.io/docs/field#image
+   * - **API ID Path**: hero.default.primary.backgrounds[]
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
-  backgroundImage: prismic.ImageField<never>;
+  backgrounds: prismic.GroupField<
+    Simplify<HeroSliceDefaultPrimaryBackgroundsItem>
+  >;
 }
 
 /**
@@ -287,37 +314,37 @@ export type ImageSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
- * Primary content in *Image → Banner → Primary*
+ * Primary content in *Image → Full Width → Primary*
  */
-export interface ImageSliceBannerPrimary {
+export interface ImageSliceFullWidthPrimary {
   /**
-   * Image field in *Image → Banner → Primary*
+   * Image field in *Image → Full Width → Primary*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: image.banner.primary.image
+   * - **API ID Path**: image.fullWidth.primary.image
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<never>;
 }
 
 /**
- * Banner variation for Image Slice
+ * Full Width variation for Image Slice
  *
- * - **API ID**: `banner`
+ * - **API ID**: `fullWidth`
  * - **Description**: Image
  * - **Documentation**: https://prismic.io/docs/slice
  */
-export type ImageSliceBanner = prismic.SharedSliceVariation<
-  "banner",
-  Simplify<ImageSliceBannerPrimary>,
+export type ImageSliceFullWidth = prismic.SharedSliceVariation<
+  "fullWidth",
+  Simplify<ImageSliceFullWidthPrimary>,
   never
 >;
 
 /**
  * Slice variation for *Image*
  */
-type ImageSliceVariation = ImageSliceDefault | ImageSliceBanner;
+type ImageSliceVariation = ImageSliceDefault | ImageSliceFullWidth;
 
 /**
  * Image Shared Slice
@@ -353,24 +380,14 @@ export interface ImageCardsSliceDefaultPrimaryCardsItem {
   text: prismic.RichTextField;
 
   /**
-   * Button Link field in *ImageCards → Default → Primary → Cards*
+   * Link field in *ImageCards → Default → Primary → Cards*
    *
    * - **Field Type**: Link
    * - **Placeholder**: *None*
-   * - **API ID Path**: image_cards.default.primary.cards[].buttonLink
+   * - **API ID Path**: image_cards.default.primary.cards[].link
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  buttonLink: prismic.LinkField;
-
-  /**
-   * Button Text field in *ImageCards → Default → Primary → Cards*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: image_cards.default.primary.cards[].buttonText
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  buttonText: prismic.KeyTextField;
+  link: prismic.LinkField;
 }
 
 /**
@@ -479,51 +496,6 @@ type QuoteSliceVariation = QuoteSliceDefault;
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type QuoteSlice = prismic.SharedSlice<"quote", QuoteSliceVariation>;
-
-/**
- * Primary content in *RichText → Default → Primary*
- */
-export interface RichTextSliceDefaultPrimary {
-  /**
-   * Content field in *RichText → Default → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: Lorem ipsum...
-   * - **API ID Path**: rich_text.default.primary.content
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  content: prismic.RichTextField;
-}
-
-/**
- * Default variation for RichText Slice
- *
- * - **API ID**: `default`
- * - **Description**: RichText
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type RichTextSliceDefault = prismic.SharedSliceVariation<
-  "default",
-  Simplify<RichTextSliceDefaultPrimary>,
-  never
->;
-
-/**
- * Slice variation for *RichText*
- */
-type RichTextSliceVariation = RichTextSliceDefault;
-
-/**
- * RichText Shared Slice
- *
- * - **API ID**: `rich_text`
- * - **Description**: RichText
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type RichTextSlice = prismic.SharedSlice<
-  "rich_text",
-  RichTextSliceVariation
->;
 
 /**
  * Primary content in *Text → Default → Primary*
@@ -648,6 +620,16 @@ export interface TextWithImageSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#image
    */
   image: prismic.ImageField<never>;
+
+  /**
+   * link field in *TextWithImage → Default → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: text_with_image.default.primary.link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
 }
 
 /**
@@ -664,69 +646,9 @@ export type TextWithImageSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
- * Primary content in *TextWithImage → With Button → Primary*
- */
-export interface TextWithImageSliceWithButtonPrimary {
-  /**
-   * Text field in *TextWithImage → With Button → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: text_with_image.withButton.primary.text
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  text: prismic.RichTextField;
-
-  /**
-   * Button Link field in *TextWithImage → With Button → Primary*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: text_with_image.withButton.primary.buttonLink
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  buttonLink: prismic.LinkField;
-
-  /**
-   * Button Text field in *TextWithImage → With Button → Primary*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: text_with_image.withButton.primary.buttonText
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  buttonText: prismic.KeyTextField;
-
-  /**
-   * Image field in *TextWithImage → With Button → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: text_with_image.withButton.primary.image
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image: prismic.ImageField<never>;
-}
-
-/**
- * With Button variation for TextWithImage Slice
- *
- * - **API ID**: `withButton`
- * - **Description**: TextWithImage
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type TextWithImageSliceWithButton = prismic.SharedSliceVariation<
-  "withButton",
-  Simplify<TextWithImageSliceWithButtonPrimary>,
-  never
->;
-
-/**
  * Slice variation for *TextWithImage*
  */
-type TextWithImageSliceVariation =
-  | TextWithImageSliceDefault
-  | TextWithImageSliceWithButton;
+type TextWithImageSliceVariation = TextWithImageSliceDefault;
 
 /**
  * TextWithImage Shared Slice
@@ -770,15 +692,16 @@ declare module "@prismicio/client" {
       SettingsDocumentData,
       AllDocumentTypes,
       HeroSlice,
+      HeroSliceDefaultPrimaryBackgroundsItem,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
       ImageSlice,
       ImageSliceDefaultPrimary,
-      ImageSliceBannerPrimary,
+      ImageSliceFullWidthPrimary,
       ImageSliceVariation,
       ImageSliceDefault,
-      ImageSliceBanner,
+      ImageSliceFullWidth,
       ImageCardsSlice,
       ImageCardsSliceDefaultPrimaryCardsItem,
       ImageCardsSliceDefaultPrimary,
@@ -788,10 +711,6 @@ declare module "@prismicio/client" {
       QuoteSliceDefaultPrimary,
       QuoteSliceVariation,
       QuoteSliceDefault,
-      RichTextSlice,
-      RichTextSliceDefaultPrimary,
-      RichTextSliceVariation,
-      RichTextSliceDefault,
       TextSlice,
       TextSliceDefaultPrimary,
       TextSliceTwoColumnsPrimary,
@@ -803,10 +722,8 @@ declare module "@prismicio/client" {
       TextBlockSliceDefault,
       TextWithImageSlice,
       TextWithImageSliceDefaultPrimary,
-      TextWithImageSliceWithButtonPrimary,
       TextWithImageSliceVariation,
       TextWithImageSliceDefault,
-      TextWithImageSliceWithButton,
     };
   }
 }

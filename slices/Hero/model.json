@@ -31,14 +31,26 @@
         },
         "buttonText": {
           "type": "Text",
-          "config": { "label": "Button Text", "placeholder": "" }
-        },
-        "backgroundImage": {
-          "type": "Image",
           "config": {
-            "label": "Background Image",
-            "constraint": {},
-            "thumbnails": []
+            "label": "Button Text",
+            "placeholder": ""
+          }
+        },
+        "backgrounds": {
+          "type": "Group",
+          "config": {
+            "label": "backgrounds",
+            "repeat": true,
+            "fields": {
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image",
+                  "constraint": {},
+                  "thumbnails": []
+                }
+              }
+            }
           }
         }
       },

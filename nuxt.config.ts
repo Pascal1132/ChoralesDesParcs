@@ -1,5 +1,6 @@
 import tailwindAspectRatio from '@tailwindcss/aspect-ratio';
 import { repositoryName, apiEndpoint } from './slicemachine.config.json';
+import colors from 'tailwindcss/colors'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -7,7 +8,6 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light'
   },
-
   app: {
     head: {
       title: 'Prismic + Nuxt Minimal Starter',
@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['@nuxtjs/prismic', '@nuxt/icon', '@nuxt/ui'],
+  modules: ['@nuxtjs/prismic', '@nuxt/icon', '@nuxt/ui', 'vue3-carousel-nuxt'],
 
   prismic: {
     endpoint: apiEndpoint || repositoryName,
@@ -44,21 +44,30 @@ export default defineNuxtConfig({
   },
   css: [
     '~/styles/global.css',
-    '@fontsource/inter/400.css',
-    '@fontsource/inter/500.css',
-    '@fontsource/inter/600.css'
+    '@fontsource/merriweather/400.css',
   ],
   tailwindcss: {
     config: {
+        theme: {
+          fontFamily: {
+            sans: 'merriweather, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+          },
+          extend: {
+            colors: {
+              primary: colors.emerald, // Vert éclatant pour représenter l'harmonie et la nature
+              secondary: colors.amber, // Jaune doré pour la chaleur et l'énergie
+              accent: colors.cyan, // Bleu clair pour la vivacité et le dynamisme
+              highlight: colors.rose, // Rose vif pour une touche vibrante
+              background: colors.gray["50"], // Fond clair et doux
+              text: colors.gray["900"], // Texte noir profond pour une bonne lisibilité
+              navbar: colors.gray["800"], // Fond obscure pour la barre de navigation
+            }
+          }
+        },
       content: [
         './app/**/*.{js,ts,vue}',
         './slices/**/*.{js,ts,vue}'
       ],
-      theme: {
-        fontFamily: {
-          sans: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
-        },
-      },
       plugins: [tailwindAspectRatio]
     }
   }
